@@ -101,7 +101,7 @@ class CeleryConfig(object):
 
 CELERY_CONFIG = CeleryConfig
 
-PUBLIC_ROLE_LIKE_GAMMA = True
+PUBLIC_ROLE_LIKE = "Gamma"
 FEATURE_FLAGS = {
     "ALERT_REPORTS": True,
     "ENABLE_TEMPLATE_PROCESSING": True

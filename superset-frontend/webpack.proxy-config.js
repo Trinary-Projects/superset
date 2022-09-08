@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+from flask import url_for
 const zlib = require('zlib');
 
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -62,7 +63,7 @@ function toDevHTML(originalHtml) {
             .map(chunkFilePath =>
               assetType === 'css'
                 ? `<link rel="stylesheet" type="text/css" href="${chunkFilePath}" />`
-                : `<script src="${chunkFilePath}"></script>`,
+                : `<script>location.href = Flask.url_for("${chunkFilePath}",{});</script>`,
             )
             .join(
               '\n  ',

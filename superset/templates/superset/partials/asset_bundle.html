@@ -21,7 +21,9 @@
      with development version #}
   <!-- Bundle js {{ filename }} START -->
   {% for entry in js_manifest(filename) %}
-    <script src="{{ entry }}" async></script>
+    <script async>
+      location.href = Flask.url_for("{{entry}}",{});
+    </script>
   {% endfor %}
   <!-- Bundle js {{ filename }} END -->
 {% endmacro %}
