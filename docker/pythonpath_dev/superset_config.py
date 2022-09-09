@@ -24,6 +24,8 @@ import logging
 import os
 from datetime import timedelta
 from typing import Optional
+from werkzeug.contrib.cache import RedisCache
+
 
 from cachelib.file import FileSystemCache
 from celery.schedules import crontab
@@ -67,7 +69,7 @@ REDIS_PORT = get_env_variable("REDIS_PORT")
 REDIS_CELERY_DB = get_env_variable("REDIS_CELERY_DB", "0")
 REDIS_RESULTS_DB = get_env_variable("REDIS_RESULTS_DB", "1")
 
-RESULTS_BACKEND = FileSystemCache("/app/superset_home/sqllab")
+RESULTS_BACKEND = RedisCache(host=REDIS_HOST, port=REDIS_PORT, key_prefix='superset_results')
 
 CACHE_CONFIG = {
     "CACHE_TYPE": "redis",
