@@ -16,37 +16,30 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-export enum DatasetActionType {
-  selectDatabase,
-  selectSchema,
-  selectTable,
-  changeDataset,
-}
+import { GenericDataType } from '@superset-ui/core';
 
-export interface DatasetObject {
-  id: number;
-  database_name?: string;
-  owners?: number[];
-  schema?: string | null;
-  dataset_name: string;
-  table_name?: string | null;
-}
-
-interface DatasetReducerPayloadType {
-  name: string;
-  value?: string;
-}
-
-export type Schema = {
-  schema?: string | null | undefined;
+export type ResultsPage = {
+  total: number;
+  data: Record<string, any>[];
+  colNames: string[];
+  colTypes: GenericDataType[];
 };
 
-export type DSReducerActionType =
-  | {
-      type: DatasetActionType.selectDatabase | DatasetActionType.selectTable;
-      payload: Partial<DatasetObject>;
-    }
-  | {
-      type: DatasetActionType.changeDataset | DatasetActionType.selectSchema;
-      payload: DatasetReducerPayloadType;
-    };
+export type Dataset = {
+  changed_by?: {
+    first_name: string;
+    last_name: string;
+  };
+  created_by?: {
+    first_name: string;
+    last_name: string;
+  };
+  changed_on: Date;
+  created_on: Date;
+  description: string;
+  table_name: string;
+  owners: {
+    first_name: string;
+    last_name: string;
+  }[];
+};
