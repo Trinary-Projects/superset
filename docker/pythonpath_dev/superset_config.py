@@ -24,8 +24,6 @@ import logging
 import os
 from datetime import timedelta
 from typing import Optional
-from werkzeug.contrib.cache import RedisCache
-
 
 from cachelib.file import FileSystemCache
 from celery.schedules import crontab
@@ -69,17 +67,17 @@ REDIS_PORT = get_env_variable("REDIS_PORT")
 REDIS_CELERY_DB = get_env_variable("REDIS_CELERY_DB", "0")
 REDIS_RESULTS_DB = get_env_variable("REDIS_RESULTS_DB", "1")
 
-RESULTS_BACKEND = RedisCache(host=REDIS_HOST, port=REDIS_PORT, key_prefix='superset_results')
+RESULTS_BACKEND = FileSystemCache("/app/superset_home/sqllab")
 
-CACHE_CONFIG = {
-    "CACHE_TYPE": "redis",
-    "CACHE_DEFAULT_TIMEOUT": 300,
-    "CACHE_KEY_PREFIX": "superset_",
-    "CACHE_REDIS_HOST": REDIS_HOST,
-    "CACHE_REDIS_PORT": REDIS_PORT,
-    "CACHE_REDIS_DB": REDIS_RESULTS_DB,
-}
-DATA_CACHE_CONFIG = CACHE_CONFIG
+# CACHE_CONFIG = {
+#     "CACHE_TYPE": "redis",
+#     "CACHE_DEFAULT_TIMEOUT": 300,
+#     "CACHE_KEY_PREFIX": "superset_",
+#     "CACHE_REDIS_HOST": REDIS_HOST,
+#     "CACHE_REDIS_PORT": REDIS_PORT,
+#     "CACHE_REDIS_DB": REDIS_RESULTS_DB,
+# }
+# DATA_CACHE_CONFIG = CACHE_CONFIG
 
 
 class CeleryConfig(object):
@@ -99,6 +97,8 @@ class CeleryConfig(object):
             "schedule": crontab(minute=10, hour=0),
         },
     }
+    CELERY_ANNOTATIONS = {"tasks.add": {"rate_limit": "10/s"}}
+    CELERY_TASK_PROTOCOL = 1
 
 
 CELERY_CONFIG = CeleryConfig
