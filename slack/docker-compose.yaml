@@ -1,0 +1,58 @@
+version: '3.6'
+services:
+  redis:
+    image: redis:6.0.9-buster
+    restart: on-failure
+    volumes:
+      - redis:/data
+  postgres:
+    image: postgres
+    restart: on-failure
+    environment:
+      POSTGRES_DB: superset_prod
+      POSTGRES_PASSWORD: !QqbGzcNrZgHyd3
+      POSTGRES_USER: superset_master
+    volumes:
+      - db:/var/lib/postgresql/data
+  worker:
+    image: superset-1.0.1-extended
+    restart: on-failure
+    healthcheck:
+      disable: true
+    depends_on:
+      - superset
+      - postgres
+      - redis
+    command: "celery --app=superset.tasks.celery_app:app worker --pool=gevent --concurrency=500"
+    volumes:
+      - ./config/:/app/pythonpath/
+  beat:
+    image: superset-1.0.1-extended
+    restart: on-failure
+    healthcheck:
+      disable: true
+    depends_on:
+      - superset
+      - postgres
+      - redis
+    command: "celery --app=superset.tasks.celery_app:app beat --pidfile /tmp/celerybeat.pid --schedule /tmp/celerybeat-schedule"
+    volumes:
+      - ./config/:/app/pythonpath/
+  superset:
+    image: superset-1.0.1-extended
+    restart: on-failure
+    environment:
+      - SUPERSET_PORT=8088
+    ports:
+      - "8088:8088"
+    depends_on:
+      - postgres
+      - redis
+    command: gunicorn --bind  0.0.0.0:8088 --access-logfile - --error-logfile - --workers 5 --worker-class gthread --threads 4 --timeout 200 --limit-request-line 4094 --limit-request-field_size 8190 superset.app:create_app()
+    volumes:
+      - ./config/:/app/pythonpath/
+volumes:
+  db:
+    external: true
+  redis:
+    external: false
