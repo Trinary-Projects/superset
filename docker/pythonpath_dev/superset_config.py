@@ -105,23 +105,23 @@ CELERY_CONFIG = CeleryConfig
 
 SLACK_API_TOKEN = "xoxb-2397059419024-3311832884097-xPb0Q7eoU0S8rt5KmZgENLUS"
 
-SCREENSHOT_LOCATE_WAIT = 100
-SCREENSHOT_LOAD_WAIT = 600
+SCREENSHOT_LOCATE_WAIT = 600
+SCREENSHOT_LOAD_WAIT = 800
 
 FEATURE_FLAGS = {"ALERT_REPORTS": True}
 ALERT_REPORTS_NOTIFICATION_DRY_RUN = True
 
 WEBDRIVER_TYPE = "chrome"
-WEBDRIVER_OPTION_ARGS = [
-    "--force-device-scale-factor=2.0",
-    "--high-dpi-support=2.0",
-    "--headless",
-    "--disable-gpu",
-    "--disable-dev-shm-usage",
-    "--no-sandbox",
-    "--disable-setuid-sandbox",
-    "--disable-extensions",
-]
+# WEBDRIVER_OPTION_ARGS = [
+#     "--force-device-scale-factor=2.0",
+#     "--high-dpi-support=2.0",
+#     "--headless",
+#     "--disable-gpu",
+#     "--disable-dev-shm-usage",
+#     "--no-sandbox",
+#     "--disable-setuid-sandbox",
+#     "--disable-extensions",
+# ]
 
 WEBDRIVER_BASEURL = "http://superset:8088/"
 # The base URL for the email report hyperlinks.
@@ -129,6 +129,7 @@ WEBDRIVER_BASEURL_USER_FRIENDLY = WEBDRIVER_BASEURL
 
 SQLLAB_CTAS_NO_LIMIT = True
 
+THUMBNAIL_SELENIUM_USER = "admin"
 #
 # Optionally import superset_config_docker.py (which will have been included on
 # the PYTHONPATH) in order to allow for local settings to be overridden
@@ -142,3 +143,5 @@ try:
     )
 except ImportError:
     logger.info("Using default Docker config...")
+
+
