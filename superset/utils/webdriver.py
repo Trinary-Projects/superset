@@ -67,8 +67,6 @@ class WebDriverProxy:
         elif self._driver_type == "chrome":
             driver_class = chrome.webdriver.WebDriver
             options = chrome.options.Options()
-            options.add_argument("--no-sandbox");
-            options.add_argument("--disable-dev-shm-usage");
             options.add_argument(f"--force-device-scale-factor={pixel_density}")
             options.add_argument(f"--window-size={self._window[0]},{self._window[1]}")
             kwargs = dict(options=options)

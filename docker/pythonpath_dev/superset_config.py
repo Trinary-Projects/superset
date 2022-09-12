@@ -123,14 +123,6 @@ WEBDRIVER_OPTION_ARGS = [
     "--disable-extensions",
 ]
 
-# THUMBNAIL_CACHE_CONFIG: CacheConfig = {
-#    'CACHE_TYPE': 'redis',
-#    'CACHE_DEFAULT_TIMEOUT': 300,
-#    'CACHE_KEY_PREFIX': 'thumbnail_',
-#    'CACHE_NO_NULL_WARNING': True,
-#    'CACHE_REDIS_URL': SUPERSET_CACHE_REDIS_URL
-# }
-
 WEBDRIVER_BASEURL = "http://superset:8088/"
 # The base URL for the email report hyperlinks.
 WEBDRIVER_BASEURL_USER_FRIENDLY = "https://superset.curelinktech.in/"
